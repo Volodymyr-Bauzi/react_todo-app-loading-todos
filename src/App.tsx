@@ -49,8 +49,8 @@ export const App: React.FC = () => {
     setQuery(e.target.value);
   };
 
-  const handleStatusChange = (status: StatusFilter) => {
-    setStatus(status);
+  const handleStatusChange = (newStatus: StatusFilter) => {
+    setStatus(newStatus);
   };
 
   const filteredTodos = [...todos].filter(todo => {

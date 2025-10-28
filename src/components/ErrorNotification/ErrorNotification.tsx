@@ -1,5 +1,4 @@
 import { ErrorMessage } from '../../types/error';
-import { Dispatch } from 'react';
 import cn from 'classnames';
 
 type ErrorNotificationProps = {
@@ -30,4 +29,5 @@ const ErrorNotification: React.FC<ErrorNotificationProps> = ({
     </div>
   );
 };
+
 export default ErrorNotification;
