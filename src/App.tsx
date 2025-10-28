@@ -8,6 +8,7 @@ import { ErrorMessage } from './types/error';
 import cn from 'classnames';
 import TodoList from './components/TodoList';
 import { StatusFilter } from './types/statusFilter';
+import Footer from './components/Footer';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -56,7 +57,7 @@ export const App: React.FC = () => {
     return todo;
   });
 
-  const doneTodos = todos.filter(todo => !todo.completed);
+  const todosLeft = todos.filter(todo => !todo.completed).length;
 
   return (
     <div className="todoapp">
@@ -89,59 +90,10 @@ export const App: React.FC = () => {
         </section>
 
         {todos.length > 0 && (
-          <footer className="todoapp__footer" data-cy="Footer">
-            <span className="todo-count" data-cy="TodosCounter">
-              {doneTodos.length} items left
-            </span>
-
-            <nav className="filter" data-cy="Filter">
-              <a
-                href={`#/${StatusFilter.All}`}
-                className={cn('filter__link', {
-                  selected: status === StatusFilter.All,
-                })}
-                data-cy="FilterLinkAll"
-                onClick={() => setStatus(StatusFilter.All)}
-              >
-                All
-              </a>
-
-              <a
-                href={`#/${StatusFilter.Active}`}
-                className={cn('filter__link', {
-                  selected: status === StatusFilter.Active,
-                })}
-                data-cy="FilterLinkActive"
-                onClick={() => setStatus(StatusFilter.Active)}
-              >
-                Active
-              </a>
-
-              <a
-                href={`#/${StatusFilter.Completed}`}
-                className={cn('filter__link', {
-                  selected: status === StatusFilter.Completed,
-                })}
-                data-cy="FilterLinkCompleted"
-                onClick={() => setStatus(StatusFilter.Completed)}
-              >
-                Completed
-              </a>
-            </nav>
-
-            <button
-              type="button"
-              className="todoapp__clear-completed"
-              data-cy="ClearCompletedButton"
-            >
-              Clear completed
-            </button>
-          </footer>
+          <Footer todosLeft={todosLeft} onStatusChange={setStatus} />
         )}
       </div>
 
-      {/* DON'T use conditional rendering to hide the notification */}
-      {/* Add the 'hidden' class to hide the message smoothly */}
       <div
         data-cy="ErrorNotification"
         className={cn(
@@ -155,7 +107,6 @@ export const App: React.FC = () => {
           className="delete"
           onClick={() => setShowErrorNotification(false)}
         />
-        {/* show only one message at a time */}
         {errorMessage}
       </div>
     </div>
