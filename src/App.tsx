@@ -5,10 +5,10 @@ import { UserWarning } from './UserWarning';
 import { server, USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
 import { ErrorMessage } from './types/error';
-import cn from 'classnames';
-import TodoList from './components/TodoList';
 import { StatusFilter } from './types/statusFilter';
+import TodoList from './components/TodoList';
 import Footer from './components/Footer';
+import ErrorNotification from './components/ErrorNotification';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -29,6 +29,10 @@ export const App: React.FC = () => {
     }, 4000);
   };
 
+  const hideError = () => {
+    setShowErrorNotification(false);
+  };
+
   useEffect(() => {
     setErrorMessage(ErrorMessage.Null);
     server
@@ -43,6 +47,10 @@ export const App: React.FC = () => {
 
   const handleChangeQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+  };
+
+  const handleStatusChange = (status: StatusFilter) => {
+    setStatus(status);
   };
 
   const filteredTodos = [...todos].filter(todo => {
@@ -75,6 +83,7 @@ export const App: React.FC = () => {
 
           <form>
             <input
+              autoFocus
               data-cy="NewTodoField"
               type="text"
               className="todoapp__new-todo"
@@ -90,25 +99,19 @@ export const App: React.FC = () => {
         </section>
 
         {todos.length > 0 && (
-          <Footer todosLeft={todosLeft} onStatusChange={setStatus} />
+          <Footer
+            todosLeft={todosLeft}
+            status={status}
+            onStatusChange={handleStatusChange}
+          />
         )}
       </div>
 
-      <div
-        data-cy="ErrorNotification"
-        className={cn(
-          'notification is-danger is-light has-text-weight-normal',
-          { hidden: !showErrorNotification },
-        )}
-      >
-        <button
-          data-cy="HideErrorButton"
-          type="button"
-          className="delete"
-          onClick={() => setShowErrorNotification(false)}
-        />
-        {errorMessage}
-      </div>
+      <ErrorNotification
+        shouldShowError={showErrorNotification}
+        errorMsg={errorMessage}
+        hideNotification={hideError}
+      />
     </div>
   );
 };

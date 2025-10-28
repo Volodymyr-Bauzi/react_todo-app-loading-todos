@@ -16,7 +16,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
     if (titleRef.current) {
       titleRef.current.focus();
     }
-  }, [titleRef]);
+  }, [titleRef.current]);
 
   return (
     <div>
@@ -26,12 +26,8 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
           data-cy="Todo"
           className={cn('todo', { completed: todo.completed })}
         >
-          <label
-            className="todo__status-label"
-            htmlFor={`todo-status-input-${todo.id}`}
-          >
+          <label className="todo__status-label">
             <input
-              id={`todo-status-input-${todo.id}`}
               aria-label={`Mark todo "${todo.title}" as completed`}
               data-cy="TodoStatus"
               type="checkbox"
@@ -57,11 +53,7 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
             </form>
           ) : (
             <>
-              <span
-                data-cy="TodoTitle"
-                className="todo__title"
-                onDoubleClick={() => setSelectedTodo(todo)}
-              >
+              <span data-cy="TodoTitle" className="todo__title">
                 {todo.title}
               </span>
 

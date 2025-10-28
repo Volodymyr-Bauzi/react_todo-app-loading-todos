@@ -1,14 +1,15 @@
-import { Dispatch } from 'react';
 import { StatusFilter } from '../../types/statusFilter';
 import cn from 'classnames';
 
 type FooterProps = {
   todosLeft: number;
-  onStatusChange: Dispatch<React.SetStateAction<StatusFilter>>;
+  status: StatusFilter;
+  onStatusChange: (filter: StatusFilter) => void;
 };
 
 export const Footer: React.FC<FooterProps> = ({
   todosLeft,
+  status,
   onStatusChange,
 }) => {
   return (
