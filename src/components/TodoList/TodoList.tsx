@@ -29,16 +29,18 @@ export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
           <label
             className="todo__status-label"
             htmlFor={`todo-status-input-${todo.id}`}
-          />
-          <input
-            id={`todo-status-input-${todo.id}`}
-            data-cy="TodoStatus"
-            type="checkbox"
-            className="todo__status"
-            checked={todo.completed}
-            readOnly
-            disabled
-          />
+          >
+            <input
+              id={`todo-status-input-${todo.id}`}
+              aria-label={`Mark todo "${todo.title}" as completed`}
+              data-cy="TodoStatus"
+              type="checkbox"
+              className="todo__status"
+              checked={todo.completed}
+              readOnly
+              disabled
+            />
+          </label>
 
           {selectedTodo?.id === todo.id ? (
             <form>
